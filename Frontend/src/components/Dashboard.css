@@ -1,0 +1,152 @@
+.dashboard-container {
+  padding: 30px 50px;
+  color: white;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ff4e8a, #5b6cff);
+}
+
+/* MAIN LAYOUT */
+.layout {
+  display: flex;
+  gap: 30px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar h1 {
+  font-size: 28px;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* TOP SECTION */
+.top-section {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+/* STATS */
+.stats {
+  width: 100%;
+}
+
+.stats-row {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+/* BOTTOM SECTION */
+.bottom-section {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+/* CARDS */
+.card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  flex: 1;
+}
+
+/* SIDEBAR CARDS */
+.sidebar .card {
+  width: 180px;
+  text-align: center;
+}
+
+/* MINI CARDS (stats + roadmap) */
+.mini-card {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  padding: 12px;
+  text-align: center;
+  flex: 1;
+}
+
+/* ROADMAP GRID */
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+/* BUTTON */
+button {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 8px;
+  background: #00e6b8;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* PROGRESS BAR */
+.progress-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #00e6b8;
+  border-radius: 5px;
+}
+
+/* TEXT ALIGN */
+.learn-section {
+  text-align: left;
+}
+
+.sidebar .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* vertical center */
+  align-items: center;       /* horizontal center */
+  text-align: center;        /* text center */
+}
+
+.top-section {
+  display: flex;
+  gap: 20px;
+}
+
+.top-left {
+  flex: 2;
+}
+
+.top-right {
+  flex: 1;
+}
+.top-inner-row {
+  display: flex;
+  gap: 20px;
+}
+
+.top-inner-row .card {
+  flex: 1;
+}
+.top-inner-row input {
+  padding: 8px;
+  margin-right: 10px;
+}

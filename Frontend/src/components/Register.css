@@ -1,0 +1,21 @@
+.register-container {
+  width: 300px;
+  margin: auto;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skill-input {
+  display: flex;
+  gap: 10px;
+}
+
+.skill-list span {
+  background: #ddd;
+  padding: 5px 10px;
+  margin: 5px;
+  display: inline-block;
+  cursor: pointer;
+}
