@@ -10,10 +10,17 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final String SECRET = "mySecretKeyForSkillGapProjectMySecretKey12345";
+   private final Key key;
 
-    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
+public JwtUtil() {
+    String secret = System.getenv("JWT_SECRET");
 
+    if (secret == null || secret.isBlank()) {
+        throw new IllegalStateException("JWT_SECRET environment variable is not configured");
+    }
+
+    key = Keys.hmacShaKeyFor(secret.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+}
     public String generateToken(String email, String role) {
 
         return Jwts.builder()
