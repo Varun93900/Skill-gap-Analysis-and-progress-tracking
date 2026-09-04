@@ -54,34 +54,49 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User registerUser(RegisterUserRequest request) {
+  public User registerUser(RegisterUserRequest request) {
 
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+    if (!request.getPassword().equals(request.getConfirmPassword())) {
+        throw new InvalidPasswordException("Passwords do not match");
+    }
+
+    User user = userRepository.findByEmail(request.getEmail()).orElse(null);
+
+    if (user != null) {
+
+        // Already verified → cannot register again
+        if (user.getEmailVerified() != null && user.getEmailVerified()) {
             throw new EmailAlreadyExistsException("Email already registered");
         }
 
-        if (!request.getPassword().equals(request.getConfirmPassword())) {
-            throw new InvalidPasswordException("Passwords do not match");
-        }
+        // Existing but unverified → restart registration
+        user.setName(request.getName());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole("USER");
 
-        User user = new User();
+    } else {
+
+        // New user
+        user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole("USER");
         user.setCreatedAt(LocalDateTime.now());
-
-        String otp = OtpUtil.generateOtp();
-        user.setOtp(otp);
-        user.setOtpExpiry(LocalDateTime.now().plusMinutes(5));
-        user.setEmailVerified(false);
-
-        user = userRepository.save(user);
-
-        emailService.sendOtp(user.getEmail(), otp);
-
-        return user;
     }
+
+    // Generate fresh OTP
+    String otp = OtpUtil.generateOtp();
+    user.setOtp(otp);
+    user.setOtpExpiry(LocalDateTime.now().plusMinutes(5));
+    user.setEmailVerified(false);
+
+    user = userRepository.save(user);
+
+    emailService.sendOtp(user.getEmail(), otp);
+
+    return user;
+}
     @Transactional
     public String verifyOtp(String email, String otp) {
 

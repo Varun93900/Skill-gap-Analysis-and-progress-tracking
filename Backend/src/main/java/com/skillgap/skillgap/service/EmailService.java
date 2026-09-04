@@ -15,25 +15,34 @@ public class EmailService {
     public void sendOtp(String toEmail, String otp) {
 
         try {
-            String apiKey = System.getenv("RESEND_API_KEY");
+            String apiKey = System.getenv("BREVO_API_KEY");
 
             if (apiKey == null || apiKey.isBlank()) {
-                throw new IllegalStateException("RESEND_API_KEY is not configured");
+                throw new IllegalStateException("BREVO_API_KEY is not configured");
             }
 
             String jsonBody = """
                     {
-                      "from": "onboarding@resend.dev",
-                      "to": ["%s"],
+                      "sender": {
+                        "name": "SkillGap",
+                        "email": "varunallam870@gmail.com"
+                      },
+                      "to": [
+                        {
+                          "email": "%s"
+                        }
+                      ],
                       "subject": "SkillGap Email Verification OTP",
-                      "html": "<p>Your OTP for SkillGap account verification is: <strong>%s</strong></p>"
+                      "htmlContent": "<html><body><h2>SkillGap Email Verification</h2><p>Your OTP is: <strong>%s</strong></p><p>This OTP is valid for 10 minutes.</p></body></html>",
+                      "textContent": "Your SkillGap email verification OTP is: %s"
                     }
-                    """.formatted(toEmail, otp);
+                    """.formatted(toEmail, otp, otp);
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://api.resend.com/emails"))
-                    .header("Authorization", "Bearer " + apiKey)
-                    .header("Content-Type", "application/json")
+                    .uri(URI.create("https://api.brevo.com/v3/smtp/email"))
+                    .header("accept", "application/json")
+                    .header("api-key", apiKey)
+                    .header("content-type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .build();
 
@@ -41,9 +50,10 @@ public class EmailService {
                     httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() >= 200 && response.statusCode() < 300) {
-                System.out.println("✅ OTP email sent successfully");
+                System.out.println("✅ OTP email sent successfully: " + response.body());
             } else {
-                System.out.println("❌ Resend email failed: " + response.body());
+                System.out.println("❌ Brevo email failed: " + response.statusCode());
+                System.out.println("Response: " + response.body());
             }
 
         } catch (Exception e) {
