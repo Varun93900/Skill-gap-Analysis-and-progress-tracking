@@ -1,44 +1,54 @@
 package com.skillgap.skillgap.service;
 
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 @Service
 public class EmailService {
 
-    private final JavaMailSender mailSender;
-
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
+    private final HttpClient httpClient = HttpClient.newHttpClient();
 
     public void sendOtp(String toEmail, String otp) {
+
         try {
-            System.out.println("📩 Sending OTP to: " + toEmail);
-            System.out.println("OTP: " + otp);
+            String apiKey = System.getenv("RESEND_API_KEY");
 
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(toEmail);
-            message.setSubject("SkillGap Email Verification OTP");
-            message.setText("Your OTP for SkillGap account verification is: " + otp);
+            if (apiKey == null || apiKey.isBlank()) {
+                throw new IllegalStateException("RESEND_API_KEY is not configured");
+            }
 
-            mailSender.send(message);
+            String jsonBody = """
+                    {
+                      "from": "onboarding@resend.dev",
+                      "to": ["%s"],
+                      "subject": "SkillGap Email Verification OTP",
+                      "html": "<p>Your OTP for SkillGap account verification is: <strong>%s</strong></p>"
+                    }
+                    """.formatted(toEmail, otp);
 
-            System.out.println("✅ Email sent successfully");
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://api.resend.com/emails"))
+                    .header("Authorization", "Bearer " + apiKey)
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .build();
+
+            HttpResponse<String> response =
+                    httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() >= 200 && response.statusCode() < 300) {
+                System.out.println("✅ OTP email sent successfully");
+            } else {
+                System.out.println("❌ Resend email failed: " + response.body());
+            }
 
         } catch (Exception e) {
             System.out.println("❌ EMAIL FAILED");
             e.printStackTrace();
         }
     }
-//    public void sendOtp(String toEmail, String otp) {
-//
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(toEmail);
-//        message.setSubject("SkillGap Email Verification OTP");
-//        message.setText("Your OTP for SkillGap account verification is: " + otp);
-//
-//        mailSender.send(message);
-//    }
 }
