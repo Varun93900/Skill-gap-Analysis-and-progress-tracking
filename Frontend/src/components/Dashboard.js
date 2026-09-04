@@ -20,7 +20,7 @@ function Dashboard() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:8080/api/users/progress", {
+      const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/progress", {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -37,7 +37,7 @@ function Dashboard() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:8080/api/users/skills", {
+      const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/skills", {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -59,7 +59,7 @@ function Dashboard() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `http://localhost:8080/api/users/skill-gap?roleId=${roleId}`,
+        `https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/skill-gap?roleId=${roleId}`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }
@@ -80,7 +80,7 @@ function Dashboard() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `http://localhost:8080/api/users/roadmap?roleId=${roleId}`,
+        `https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/roadmap?roleId=${roleId}`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }
@@ -111,7 +111,7 @@ function Dashboard() {
   try {
     const token = localStorage.getItem("token");
 
-    await fetch("http://localhost:8080/api/users/add-skill", {
+    await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/add-skill", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -229,7 +229,7 @@ const missingCount = missingSkills.length;
       // ADD skill if not exists
       if (!found) {
         const res = await fetch(
-          `http://localhost:8080/api/users/add-skill`,
+          `https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/add-skill`,
           {
             method: "POST",
             headers: {
@@ -248,7 +248,7 @@ const missingCount = missingSkills.length;
         await fetchSkills();
 
         const updatedRes = await fetch(
-          "http://localhost:8080/api/users/skills",
+          "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/skills",
           {
             headers: { Authorization: `Bearer ${token}` }
           }
@@ -265,7 +265,7 @@ const missingCount = missingSkills.length;
 
       // MARK COMPLETE
       await fetch(
-        `http://localhost:8080/api/users/skills/${found.skill.skillId}/complete`,
+        `https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/skills/${found.skill.skillId}/complete`,
         {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` }
@@ -290,7 +290,7 @@ const markSkillIncomplete = async (skillId) => {
     const token = localStorage.getItem("token");
 
     await fetch(
-      `http://localhost:8080/api/users/skills/${skillId}/incomplete`,
+      `https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/skills/${skillId}/incomplete`,
       {
         method: "PUT",
         headers: {
@@ -473,7 +473,7 @@ const markSkillIncomplete = async (skillId) => {
                           setSelectedSkillName(item.skillName);
 
                           const res = await fetch(
-                            `http://localhost:8080/api/users/learning-content?skillId=${item.skillId}`
+                            `https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/learning-content?skillId=${item.skillId}`
                           );
 
                           const data = await res.json();

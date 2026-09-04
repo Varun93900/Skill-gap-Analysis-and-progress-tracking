@@ -15,7 +15,7 @@ useEffect(() => {
 }, []);
 
   const fetchCategories = async () => {
-    const res = await fetch("http://localhost:8080/api/admin/categories", {
+    const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/categories", {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!res.ok) {
@@ -29,7 +29,7 @@ useEffect(() => {
   };
 
   const fetchSkills = async () => {
-    const res = await fetch("http://localhost:8080/api/admin/skills", {
+    const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/skills", {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!res.ok) {
@@ -43,7 +43,7 @@ useEffect(() => {
   };
 
   const fetchRoles = async () => {
-  const res = await fetch("http://localhost:8080/api/admin/job-roles", {
+  const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/job-roles", {
     headers: { Authorization: `Bearer ${token}` }
   });
 
@@ -97,7 +97,7 @@ function CategoryCard({ categories, refresh }) {
       return;
     }
 
-    await fetch("http://localhost:8080/api/admin/categories", {
+    await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/categories", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -158,7 +158,7 @@ function SkillCard({ categories, skills, refresh }) {
       return;
     }
 
-    await fetch("http://localhost:8080/api/admin/skills", {
+    await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/skills", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -228,7 +228,7 @@ function JobRoleCard({ roles, refresh }) {
       return;
     }
 
-    await fetch("http://localhost:8080/api/admin/job-roles", {
+    await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/job-roles", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -297,7 +297,7 @@ function AssignSkillCard({ roles, skills }) {
     }
 
     try {
-      const res = await fetch("http://localhost:8080/api/admin/job-role-skills", {
+      const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/job-role-skills", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

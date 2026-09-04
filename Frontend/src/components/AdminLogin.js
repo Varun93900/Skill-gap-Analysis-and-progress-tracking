@@ -15,7 +15,7 @@ function AdminLogin() {
     }
 
     try {
-      const res = await fetch("http://localhost:8080/api/admin/login", {
+      const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

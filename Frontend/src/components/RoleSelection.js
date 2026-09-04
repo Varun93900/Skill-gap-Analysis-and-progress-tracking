@@ -11,7 +11,7 @@ function RoleSelection({ onSelectRole }) {
   const fetchRoles = async () => {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("http://localhost:8080/api/users/roles", {
+  const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/roles", {
   headers: {
     Authorization: `Bearer ${token}`
   }
