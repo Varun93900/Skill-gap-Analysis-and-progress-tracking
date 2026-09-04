@@ -7,11 +7,11 @@ function AdminDashboard() {
 
   const token = localStorage.getItem("adminToken");
 
-  // eslint-disable-next-line
 useEffect(() => {
   fetchCategories();
   fetchSkills();
   fetchRoles();
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 
   const fetchCategories = async () => {
