@@ -49,6 +49,7 @@ public class UserService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole("ADMIN");
+        user.setEmailVerified(true);
         user.setCreatedAt(LocalDateTime.now());
 
         return userRepository.save(user);

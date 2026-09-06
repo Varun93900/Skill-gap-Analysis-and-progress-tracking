@@ -51,8 +51,7 @@ public class SecurityConfig {
                                 "/api/users/login",
                                 "/api/admin/login",
                                 "/api/users/verify-otp",
-                                "/api/users/resend-otp",
-                                "/api/admin/create-admin"
+                                "/api/users/resend-otp"
                         ).permitAll()
 
                         .requestMatchers(
