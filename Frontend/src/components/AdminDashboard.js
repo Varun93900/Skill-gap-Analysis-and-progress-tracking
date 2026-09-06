@@ -7,21 +7,25 @@ function AdminDashboard() {
 
   const token = localStorage.getItem("adminToken");
 
-useEffect(() => {
-  fetchCategories();
-  fetchSkills();
-  fetchRoles();
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+  useEffect(() => {
+    fetchCategories();
+    fetchSkills();
+    fetchRoles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fetchCategories = async () => {
-    const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/categories", {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const res = await fetch(
+      "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/categories",
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+
     if (!res.ok) {
-        const text = await res.text();
-        console.error("API ERROR:", text);
-        return;
+      const text = await res.text();
+      console.error("API ERROR:", text);
+      return;
     }
 
     const data = await res.json();
@@ -29,13 +33,17 @@ useEffect(() => {
   };
 
   const fetchSkills = async () => {
-    const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/skills", {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const res = await fetch(
+      "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/skills",
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+
     if (!res.ok) {
-        const text = await res.text();
-        console.error("API ERROR:", text);
-        return;
+      const text = await res.text();
+      console.error("API ERROR:", text);
+      return;
     }
 
     const data = await res.json();
@@ -43,47 +51,128 @@ useEffect(() => {
   };
 
   const fetchRoles = async () => {
-  const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/job-roles", {
-    headers: { Authorization: `Bearer ${token}` }
-  });
+    const res = await fetch(
+      "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/job-roles",
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
 
-  if (!res.ok) return;
+    if (!res.ok) return;
 
-  const data = await res.json();
-  setRoles(data);
+    const data = await res.json();
+    setRoles(data);
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={{ color: "white", textAlign: "center" }}>
-        Admin Dashboard
-      </h1>
+    <>
+      <style>{`
+        .admin-dashboard-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 20px;
+        }
 
-      <div style={styles.grid}>
-  <CategoryCard categories={categories} refresh={fetchCategories} />
+        .admin-card {
+          min-width: 0;
+          box-sizing: border-box;
+        }
 
-  <SkillCard
-    categories={categories}
-    skills={skills}
-    refresh={fetchSkills}
-  />
+        .admin-input {
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
+        }
 
-  <JobRoleCard roles={roles} refresh={fetchRoles} />
+        .admin-button {
+          width: fit-content;
+          max-width: 100%;
+        }
 
-  {/* ✅ NEW CARD */}
-  <AssignSkillCard roles={roles} skills={skills} />
-</div>
-    </div>
+        @media (max-width: 800px) {
+          .admin-dashboard-container {
+            padding: 25px 15px !important;
+          }
+
+          .admin-dashboard-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .admin-card {
+            width: 100%;
+          }
+
+          .admin-dashboard-title {
+            font-size: 26px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .admin-dashboard-container {
+            padding: 20px 10px !important;
+          }
+
+          .admin-dashboard-title {
+            font-size: 22px !important;
+          }
+
+          .admin-card {
+            padding: 16px !important;
+          }
+
+          .admin-button {
+            width: 100%;
+          }
+        }
+      `}</style>
+
+      <div
+        className="admin-dashboard-container"
+        style={styles.container}
+      >
+        <h1
+          className="admin-dashboard-title"
+          style={{ color: "white", textAlign: "center" }}
+        >
+          Admin Dashboard
+        </h1>
+
+        <div className="admin-dashboard-grid">
+          <div className="admin-card">
+            <CategoryCard
+              categories={categories}
+              refresh={fetchCategories}
+            />
+          </div>
+
+          <div className="admin-card">
+            <SkillCard
+              categories={categories}
+              skills={skills}
+              refresh={fetchSkills}
+            />
+          </div>
+
+          <div className="admin-card">
+            <JobRoleCard
+              roles={roles}
+              refresh={fetchRoles}
+            />
+          </div>
+
+          <div className="admin-card">
+            <AssignSkillCard
+              roles={roles}
+              skills={skills}
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
 export default AdminDashboard;
-
-
-
-
-
-
 
 /* ================= CATEGORY CARD ================= */
 
@@ -97,14 +186,17 @@ function CategoryCard({ categories, refresh }) {
       return;
     }
 
-    await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/categories", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ categoryName: name })
-    });
+    await fetch(
+      "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/categories",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ categoryName: name })
+      }
+    );
 
     setName("");
     refresh();
@@ -115,13 +207,18 @@ function CategoryCard({ categories, refresh }) {
       <h3>Manage Categories</h3>
 
       <input
+        className="admin-input"
         style={inputStyle}
         placeholder="Category Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
 
-      <button style={buttonStyle} onClick={addCategory}>
+      <button
+        className="admin-button"
+        style={buttonStyle}
+        onClick={addCategory}
+      >
         Add Category
       </button>
 
@@ -130,19 +227,17 @@ function CategoryCard({ categories, refresh }) {
       <h4>All Categories</h4>
 
       {categories.length === 0 ? (
-  <p>No categories yet</p>
-) : (
-  categories.map((c) => (
-    <p key={c.categoryId}>• {c.categoryName}</p>
-  ))
-)}
+        <p>No categories yet</p>
+      ) : (
+        categories.map((c) => (
+          <p key={c.categoryId}>
+            • {c.categoryName}
+          </p>
+        ))
+      )}
     </div>
   );
 }
-
-
-
-
 
 /* ================= SKILL CARD ================= */
 
@@ -158,14 +253,17 @@ function SkillCard({ categories, skills, refresh }) {
       return;
     }
 
-    await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/skills", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ skillName, categoryId })
-    });
+    await fetch(
+      "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/skills",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ skillName, categoryId })
+      }
+    );
 
     setSkillName("");
     setCategoryId("");
@@ -177,6 +275,7 @@ function SkillCard({ categories, skills, refresh }) {
       <h3>Add Skill</h3>
 
       <input
+        className="admin-input"
         style={inputStyle}
         placeholder="Skill Name"
         value={skillName}
@@ -184,11 +283,13 @@ function SkillCard({ categories, skills, refresh }) {
       />
 
       <select
+        className="admin-input"
         style={inputStyle}
         value={categoryId}
         onChange={(e) => setCategoryId(e.target.value)}
       >
         <option value="">Select Category</option>
+
         {categories.map((c) => (
           <option key={c.categoryId} value={c.categoryId}>
             {c.categoryName}
@@ -196,7 +297,11 @@ function SkillCard({ categories, skills, refresh }) {
         ))}
       </select>
 
-      <button style={buttonStyle} onClick={addSkill}>
+      <button
+        className="admin-button"
+        style={buttonStyle}
+        onClick={addSkill}
+      >
         Add Skill
       </button>
 
@@ -221,21 +326,26 @@ function JobRoleCard({ roles, refresh }) {
 
   const token = localStorage.getItem("adminToken");
 
-  // 🔥 Add role
   const addRole = async () => {
     if (!roleName || !description) {
       alert("Fill all fields");
       return;
     }
 
-    await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/job-roles", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ roleName, description })
-    });
+    await fetch(
+      "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/job-roles",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          roleName,
+          description
+        })
+      }
+    );
 
     setRoleName("");
     setDescription("");
@@ -247,6 +357,7 @@ function JobRoleCard({ roles, refresh }) {
       <h3>Add Job Role</h3>
 
       <input
+        className="admin-input"
         style={inputStyle}
         placeholder="Role Name"
         value={roleName}
@@ -254,13 +365,18 @@ function JobRoleCard({ roles, refresh }) {
       />
 
       <input
+        className="admin-input"
         style={inputStyle}
         placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
 
-      <button style={buttonStyle} onClick={addRole}>
+      <button
+        className="admin-button"
+        style={buttonStyle}
+        onClick={addRole}
+      >
         Add Role
       </button>
 
@@ -297,18 +413,21 @@ function AssignSkillCard({ roles, skills }) {
     }
 
     try {
-      const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/job-role-skills", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          roleId: selectedRoleId,
-          skillId: selectedSkillId,
-          priority: priority
-        })
-      });
+      const res = await fetch(
+        "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/job-role-skills",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            roleId: selectedRoleId,
+            skillId: selectedSkillId,
+            priority: priority
+          })
+        }
+      );
 
       if (!res.ok) {
         const err = await res.text();
@@ -317,7 +436,6 @@ function AssignSkillCard({ roles, skills }) {
       }
 
       alert("Skill assigned to role ✅");
-
     } catch (err) {
       console.error(err);
       alert("Error assigning skill");
@@ -329,11 +447,13 @@ function AssignSkillCard({ roles, skills }) {
       <h3>Assign Skill to Role</h3>
 
       <select
+        className="admin-input"
         style={inputStyle}
         value={selectedRoleId}
         onChange={(e) => setSelectedRoleId(e.target.value)}
       >
         <option value="">Select Role</option>
+
         {roles.map((role) => (
           <option key={role.roleId} value={role.roleId}>
             {role.roleName}
@@ -342,11 +462,13 @@ function AssignSkillCard({ roles, skills }) {
       </select>
 
       <select
+        className="admin-input"
         style={inputStyle}
         value={selectedSkillId}
         onChange={(e) => setSelectedSkillId(e.target.value)}
       >
         <option value="">Select Skill</option>
+
         {skills.map((skill) => (
           <option key={skill.skillId} value={skill.skillId}>
             {skill.skillName}
@@ -355,6 +477,7 @@ function AssignSkillCard({ roles, skills }) {
       </select>
 
       <select
+        className="admin-input"
         style={inputStyle}
         value={priority}
         onChange={(e) => setPriority(e.target.value)}
@@ -364,15 +487,16 @@ function AssignSkillCard({ roles, skills }) {
         <option value="LOW">LOW</option>
       </select>
 
-      <button style={buttonStyle} onClick={assignSkillToRole}>
+      <button
+        className="admin-button"
+        style={buttonStyle}
+        onClick={assignSkillToRole}
+      >
         Assign Skill
       </button>
     </div>
   );
 }
-
-
-
 
 /* ================= STYLES ================= */
 
@@ -380,12 +504,8 @@ const styles = {
   container: {
     minHeight: "100vh",
     padding: "30px",
-    background: "linear-gradient(135deg, #ff4e8a, #5b6cff)"
-  },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "20px"
+    background: "linear-gradient(135deg, #ff4e8a, #5b6cff)",
+    boxSizing: "border-box"
   }
 };
 
@@ -396,7 +516,9 @@ const cardStyle = {
   color: "white",
   display: "flex",
   flexDirection: "column",
-  gap: "10px"
+  gap: "10px",
+  width: "100%",
+  boxSizing: "border-box"
 };
 
 const inputStyle = {
