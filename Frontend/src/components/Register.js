@@ -44,6 +44,15 @@ function Register() {
       alert("Passwords do not match");
       return;
     }
+    const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+if (!passwordRegex.test(password)) {
+  alert(
+    "Password must be at least 8 characters and contain an uppercase letter, lowercase letter, number, and special character."
+  );
+  return;
+}
 
     try {
       const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/register", {
@@ -169,6 +178,10 @@ function Register() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <p style={{ fontSize: "12px", marginTop: "5px" }}>
+  Password must be at least 8 characters and include uppercase, lowercase,
+  number, and special character.
+    </p>
 
             <input
               type="password"
