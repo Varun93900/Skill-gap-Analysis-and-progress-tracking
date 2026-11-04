@@ -55,7 +55,7 @@ if (!passwordRegex.test(password)) {
 }
 
     try {
-      const res = await fetch("https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/register", {
+      const res = await fetch("https://skill-gap-analysis-and-progress-tracking.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
