@@ -16,7 +16,7 @@ function AdminDashboard() {
 
   const fetchCategories = async () => {
     const res = await fetch(
-      "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/categories",
+      "skill-gap-analysis-and-progress-tracking.onrender.com/api/admin/categories",
       {
         headers: { Authorization: `Bearer ${token}` }
       }
@@ -34,7 +34,7 @@ function AdminDashboard() {
 
   const fetchSkills = async () => {
     const res = await fetch(
-      "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/skills",
+      "skill-gap-analysis-and-progress-tracking.onrender.com/api/admin/skills",
       {
         headers: { Authorization: `Bearer ${token}` }
       }
@@ -52,7 +52,7 @@ function AdminDashboard() {
 
   const fetchRoles = async () => {
     const res = await fetch(
-      "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/job-roles",
+      "skill-gap-analysis-and-progress-tracking.onrender.com/api/admin/job-roles",
       {
         headers: { Authorization: `Bearer ${token}` }
       }
@@ -187,7 +187,7 @@ function CategoryCard({ categories, refresh }) {
     }
 
     await fetch(
-      "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/categories",
+      "skill-gap-analysis-and-progress-tracking.onrender.com/api/admin/categories",
       {
         method: "POST",
         headers: {
@@ -254,7 +254,7 @@ function SkillCard({ categories, skills, refresh }) {
     }
 
     await fetch(
-      "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/skills",
+      "skill-gap-analysis-and-progress-tracking.onrender.com/api/admin/skills",
       {
         method: "POST",
         headers: {
@@ -333,7 +333,7 @@ function JobRoleCard({ roles, refresh }) {
     }
 
     await fetch(
-      "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/job-roles",
+      "skill-gap-analysis-and-progress-tracking.onrender.com/api/admin/job-roles",
       {
         method: "POST",
         headers: {
@@ -414,7 +414,7 @@ function AssignSkillCard({ roles, skills }) {
 
     try {
       const res = await fetch(
-        "https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/admin/job-role-skills",
+        "skill-gap-analysis-and-progress-tracking.onrender.com/api/admin/job-role-skills",
         {
           method: "POST",
           headers: {
