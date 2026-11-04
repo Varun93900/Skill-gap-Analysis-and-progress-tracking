@@ -98,7 +98,7 @@ if (!passwordRegex.test(password)) {
 
     try {
       const res = await fetch(
-        `https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/verify-otp?email=${email}&otp=${otp}`,
+        `https://skill-gap-analysis-and-progress-tracking.onrender.com/api/users/verify-otp?email=${email}&otp=${otp}`,
         {
           method: "POST"
         }
@@ -125,7 +125,7 @@ if (!passwordRegex.test(password)) {
   const handleResendOtp = async () => {
     try {
       const res = await fetch(
-        `https://skill-gap-analysis-and-progress-tracking-production.up.railway.app/api/users/resend-otp?email=${email}`,
+        `https://skill-gap-analysis-and-progress-tracking.onrender.com/api/users/resend-otp?email=${email}`,
         {
           method: "POST"
         }
